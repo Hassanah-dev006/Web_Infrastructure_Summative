@@ -70,6 +70,36 @@
                 <div class="job-description">
                     {{ job.job_description | replace('\n', '<br>') | safe }}
                 </div>
+
+                {% if job.job_highlights %}
+                    {% if job.job_highlights.Qualifications %}
+                    <hr>
+                    <h5><i class="bi bi-check-circle me-2 text-primary"></i>Qualifications</h5>
+                    <ul>
+                        {% for q in job.job_highlights.Qualifications %}
+                        <li>{{ q }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {% if job.job_highlights.Responsibilities %}
+                    <h5><i class="bi bi-list-task me-2 text-primary"></i>Responsibilities</h5>
+                    <ul>
+                        {% for r in job.job_highlights.Responsibilities %}
+                        <li>{{ r }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {% if job.job_highlights.Benefits %}
+                    <h5><i class="bi bi-gift me-2 text-primary"></i>Benefits</h5>
+                    <ul>
+                        {% for b in job.job_highlights.Benefits %}
+                        <li>{{ b }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>
