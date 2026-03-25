@@ -53,5 +53,10 @@ def _api_request(endpoint, params):
         return {"error": "Could not connect to the job search API. Please try again later."}
 
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
