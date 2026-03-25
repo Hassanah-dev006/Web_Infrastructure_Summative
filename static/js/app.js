@@ -116,3 +116,27 @@ function setupSort() {
         window.location.href = url.toString();
     });
 }
+
+// ---- Init ----
+document.addEventListener('DOMContentLoaded', function() {
+    updateSavedCount();
+    updateSaveButtons();
+    setupFilter();
+    setupSort();
+
+    // Save button click handler
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.save-btn');
+        if (!btn) return;
+        e.preventDefault();
+        try {
+            const job = JSON.parse(btn.getAttribute('data-job'));
+            const isSaved = toggleSaveJob(job);
+            btn.innerHTML = isSaved
+                ? '<i class="bi bi-bookmark-fill"></i>'
+                : '<i class="bi bi-bookmark"></i>';
+            btn.classList.toggle('btn-primary', isSaved);
+            btn.classList.toggle('btn-outline-primary', !isSaved);
+        } catch (err) { /* skip */ }
+    });
+});
