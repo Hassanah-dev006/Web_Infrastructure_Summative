@@ -103,6 +103,58 @@
             </div>
         </div>
     </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <div class="card shadow-sm mb-3">
+            <div class="card-body text-center">
+                {% if job.job_apply_link %}
+                <a href="{{ job.job_apply_link }}" target="_blank" rel="noopener"
+                   class="btn btn-primary btn-lg w-100 mb-2">
+                    <i class="bi bi-box-arrow-up-right me-2"></i>Apply Now
+                </a>
+                {% endif %}
+                <button class="btn btn-outline-primary w-100 save-btn"
+                        data-job='{{ job | tojson }}'>
+                    <i class="bi bi-bookmark me-2"></i>Save Job
+                </button>
+            </div>
+        </div>
+
+        <!-- Salary estimate widget -->
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h6><i class="bi bi-graph-up me-2"></i>Salary Estimate</h6>
+                <div id="salaryWidget" class="text-center py-2">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <small class="text-muted ms-2">Fetching estimate...</small>
+                </div>
+            </div>
+        </div>
+
+        {% if job.employer_website %}
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6><i class="bi bi-building me-2"></i>Company</h6>
+                <p class="mb-1"><strong>{{ job.employer_name }}</strong></p>
+                <a href="{{ job.employer_website }}" target="_blank" rel="noopener"
+                   class="small">Visit website <i class="bi bi-box-arrow-up-right"></i></a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
 </div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if job %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetchSalaryEstimate('{{ job.job_title | e }}', '{{ job.job_city or "United States" | e }}');
+});
+</script>
 {% endif %}
 {% endblock %}
