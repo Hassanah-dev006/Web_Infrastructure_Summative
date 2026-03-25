@@ -32,3 +32,54 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
+
+/* ---- Job Cards ---- */
+.job-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border: 1px solid #e9ecef;
+}
+
+.job-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.employer-logo {
+    object-fit: contain;
+    background: #f8f9fa;
+    padding: 4px;
+}
+
+/* ---- Job Description ---- */
+.job-description {
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* ---- Save Button ---- */
+.save-btn {
+    min-width: 38px;
+}
+
+/* ---- Badges ---- */
+.badge {
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+/* ---- Loading Spinner ---- */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2rem 1rem;
+    }
+
+    .hero-section h1 {
+        font-size: 1.8rem;
+    }
+}
