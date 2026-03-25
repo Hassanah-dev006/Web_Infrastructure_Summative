@@ -29,6 +29,33 @@
                 </button>
             </div>
         </div>
+
+        <div class="row g-3 mt-2">
+            <div class="col-md-4">
+                <select class="form-select" name="employment_type">
+                    <option value="">All Job Types</option>
+                    <option value="FULLTIME">Full-time</option>
+                    <option value="PARTTIME">Part-time</option>
+                    <option value="CONTRACTOR">Contract</option>
+                    <option value="INTERN">Internship</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" name="date_posted">
+                    <option value="all">Any Time</option>
+                    <option value="today">Past 24 Hours</option>
+                    <option value="3days">Past 3 Days</option>
+                    <option value="week">Past Week</option>
+                    <option value="month">Past Month</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <div class="form-check form-switch mt-2">
+                    <input class="form-check-input" type="checkbox" name="remote_only" value="true" id="remoteToggle">
+                    <label class="form-check-label" for="remoteToggle">Remote Only</label>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 {% endblock %}
