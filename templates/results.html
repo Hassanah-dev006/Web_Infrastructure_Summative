@@ -146,6 +146,27 @@
     {% endfor %}
 </div>
 
+<!-- Pagination -->
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page > 1 %}
+        <li class="page-item">
+            <a class="page-link" href="/search?query={{ query }}&location={{ location }}&employment_type={{ employment_type }}&date_posted={{ date_posted }}&sort_by={{ sort_by }}&remote_only={{ remote_only }}&page={{ page - 1 }}">
+                &laquo; Previous
+            </a>
+        </li>
+        {% endif %}
+        <li class="page-item active"><span class="page-link">Page {{ page }}</span></li>
+        {% if jobs|length >= 10 %}
+        <li class="page-item">
+            <a class="page-link" href="/search?query={{ query }}&location={{ location }}&employment_type={{ employment_type }}&date_posted={{ date_posted }}&sort_by={{ sort_by }}&remote_only={{ remote_only }}&page={{ page + 1 }}">
+                Next &raquo;
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
 {% elif query %}
 <div class="text-center py-5">
     <i class="bi bi-search display-1 text-muted"></i>
