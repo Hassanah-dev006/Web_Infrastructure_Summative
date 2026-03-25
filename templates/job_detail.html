@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}{{ job.job_title if job else 'Job Not Found' }} - JobScout{% endblock %}
+
+{% block content %}
+{% if error %}
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle me-2"></i>{{ error }}
+</div>
+<a href="/" class="btn btn-primary">Back to Search</a>
+
+{% elif job %}
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">Job Details</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="d-flex gap-3 mb-3">
+                    {% if job.employer_logo %}
+                    <img src="{{ job.employer_logo }}" alt="{{ job.employer_name }}"
+                         class="rounded" width="64" height="64"
+                         onerror="this.style.display='none'">
+                    {% endif %}
+                    <div>
+                        <h2 class="mb-1">{{ job.job_title }}</h2>
+                        <h5 class="text-muted">{{ job.employer_name }}</h5>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    {% if job.job_city %}
+                    <span class="badge bg-light text-dark border">
+                        <i class="bi bi-geo-alt me-1"></i>{{ job.job_city }}{% if job.job_state %}, {{ job.job_state }}{% endif %}
+                    </span>
+                    {% endif %}
+                    {% if job.job_employment_type %}
+                    <span class="badge bg-primary-subtle text-primary">{{ job.job_employment_type }}</span>
+                    {% endif %}
+                    {% if job.job_is_remote %}
+                    <span class="badge bg-success-subtle text-success"><i class="bi bi-wifi me-1"></i>Remote</span>
+                    {% endif %}
+                    {% if job.job_min_salary or job.job_max_salary %}
+                    <span class="badge bg-warning-subtle text-dark">
+                        <i class="bi bi-currency-dollar me-1"></i>
+                        {% if job.job_min_salary and job.job_max_salary %}
+                            {{ "${:,.0f}".format(job.job_min_salary) }} - {{ "${:,.0f}".format(job.job_max_salary) }}
+                        {% elif job.job_max_salary %}
+                            Up to {{ "${:,.0f}".format(job.job_max_salary) }}
+                        {% else %}
+                            From {{ "${:,.0f}".format(job.job_min_salary) }}
+                        {% endif %}
+                        {% if job.job_salary_period %}/ {{ job.job_salary_period|lower }}{% endif %}
+                    </span>
+                    {% endif %}
+                    {% if job.job_posted_at_datetime_utc %}
+                    <span class="badge bg-light text-dark border">
+                        <i class="bi bi-calendar me-1"></i>Posted {{ job.job_posted_at_datetime_utc[:10] }}
+                    </span>
+                    {% endif %}
+                </div>
+
+                <hr>
+
+                <div class="job-description">
+                    {{ job.job_description | replace('\n', '<br>') | safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
