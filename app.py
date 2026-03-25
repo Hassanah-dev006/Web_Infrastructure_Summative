@@ -135,5 +135,22 @@ def job_detail(job_id):
     return render_template("job_detail.html", job=job)
 
 
+@app.route("/api/salary")
+def salary_estimate():
+    title = request.args.get("title", "").strip()
+    location = request.args.get("location", "").strip()
+
+    if not title:
+        return jsonify({"error": "Job title is required."}), 400
+
+    params = {"job_title": title, "location": location or "United States"}
+    data = _api_request("estimated-salary", params)
+
+    if "error" in data:
+        return jsonify(data), 502
+
+    return jsonify(data)
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
