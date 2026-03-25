@@ -115,5 +115,25 @@ def search():
     )
 
 
+@app.route("/job/<path:job_id>")
+def job_detail(job_id):
+    # Sanitize the job_id to prevent injection
+    safe_id = html.escape(job_id)
+    params = {"job_id": safe_id, "extended_publisher_details": "true"}
+    data = _api_request("job-details", params)
+
+    if "error" in data:
+        return render_template("job_detail.html", job=None, error=data["error"])
+
+    jobs = data.get("data", [])
+    job = jobs[0] if jobs else None
+
+    if not job:
+        return render_template("job_detail.html", job=None,
+                               error="Job not found.")
+
+    return render_template("job_detail.html", job=job)
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
