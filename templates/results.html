@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results - JobScout{% endblock %}
+
+{% block content %}
+<!-- Compact search bar -->
+<form action="/search" method="GET" class="mb-4">
+    <div class="row g-2">
+        <div class="col-md-4">
+            <input type="text" class="form-control" name="query"
+                   value="{{ query }}" placeholder="Job title or keyword" required>
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" name="location"
+                   value="{{ location }}" placeholder="Location">
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" name="employment_type">
+                <option value="">All Types</option>
+                <option value="FULLTIME" {{ 'selected' if employment_type == 'FULLTIME' }}>Full-time</option>
+                <option value="PARTTIME" {{ 'selected' if employment_type == 'PARTTIME' }}>Part-time</option>
+                <option value="CONTRACTOR" {{ 'selected' if employment_type == 'CONTRACTOR' }}>Contract</option>
+                <option value="INTERN" {{ 'selected' if employment_type == 'INTERN' }}>Internship</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" name="date_posted">
+                <option value="all" {{ 'selected' if date_posted == 'all' }}>Any Time</option>
+                <option value="today" {{ 'selected' if date_posted == 'today' }}>24 Hours</option>
+                <option value="3days" {{ 'selected' if date_posted == '3days' }}>3 Days</option>
+                <option value="week" {{ 'selected' if date_posted == 'week' }}>Week</option>
+                <option value="month" {{ 'selected' if date_posted == 'month' }}>Month</option>
+            </select>
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i></button>
+        </div>
+    </div>
+    <div class="row g-2 mt-1">
+        <div class="col-auto">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" name="remote_only"
+                       value="true" id="remoteToggle" {{ 'checked' if remote_only }}>
+                <label class="form-check-label" for="remoteToggle">Remote Only</label>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="sort_by" value="{{ sort_by }}">
+</form>
+
+{% if error %}
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle me-2"></i>{{ error }}
+</div>
+{% endif %}
+{% endblock %}
