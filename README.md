@@ -58,7 +58,7 @@ A web application that aggregates job listings from LinkedIn, Indeed, Glassdoor,
    python app.py
    ```
 
-6. Open http://localhost:5000 in your browser.
+6. Open http://localhost:5001 in your browser.
 
 ## Deployment to Web Servers
 
