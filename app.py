@@ -152,5 +152,10 @@ def salary_estimate():
     return jsonify(data)
 
 
+@app.route("/saved")
+def saved():
+    return render_template("saved.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
