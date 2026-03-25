@@ -90,3 +90,29 @@ function fetchSalaryEstimate(title, location) {
             widget.innerHTML = '<small class="text-muted">Could not load estimate.</small>';
         });
 }
+
+// ---- Client-side filter ----
+function setupFilter() {
+    const input = document.getElementById('filterInput');
+    if (!input) return;
+
+    input.addEventListener('input', function() {
+        const term = this.value.toLowerCase();
+        document.querySelectorAll('#jobList .job-card').forEach(function(card) {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(term) ? '' : 'none';
+        });
+    });
+}
+
+// ---- Sort select ----
+function setupSort() {
+    const sel = document.getElementById('sortSelect');
+    if (!sel) return;
+
+    sel.addEventListener('change', function() {
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort_by', this.value);
+        window.location.href = url.toString();
+    });
+}
