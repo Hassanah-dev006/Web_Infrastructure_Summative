@@ -24,5 +24,34 @@ def _cache_key(endpoint, params):
     return f"{endpoint}:{sorted_params}"
 
 
+def _api_request(endpoint, params):
+    """Make a cached request to the JSearch API."""
+    key = _cache_key(endpoint, params)
+
+    # Check cache
+    if key in _cache:
+        cached_time, cached_data = _cache[key]
+        if time.time() - cached_time < CACHE_TTL:
+            return cached_data
+
+    url = f"{config.JSEARCH_BASE_URL}/{endpoint}"
+    try:
+        resp = requests.get(url, headers=_get_headers(), params=params, timeout=15)
+        resp.raise_for_status()
+        data = resp.json()
+        _cache[key] = (time.time(), data)
+        return data
+    except requests.exceptions.Timeout:
+        return {"error": "The API request timed out. Please try again."}
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 429:
+            return {"error": "API rate limit reached. Please wait a moment and try again."}
+        if e.response.status_code == 403:
+            return {"error": "API access denied. Please check the API key configuration."}
+        return {"error": f"API error: {e.response.status_code}"}
+    except requests.exceptions.RequestException:
+        return {"error": "Could not connect to the job search API. Please try again later."}
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
