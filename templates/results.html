@@ -52,5 +52,25 @@
 <div class="alert alert-warning">
     <i class="bi bi-exclamation-triangle me-2"></i>{{ error }}
 </div>
+
+{% elif jobs %}
+<!-- Results header -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0">{{ jobs|length }} result{{ 's' if jobs|length != 1 }} for "{{ query }}"</h5>
+    <div class="d-flex align-items-center gap-2">
+        <label class="text-muted small">Sort by:</label>
+        <select class="form-select form-select-sm" id="sortSelect" style="width: auto;">
+            <option value="relevance" {{ 'selected' if sort_by == 'relevance' }}>Relevance</option>
+            <option value="date" {{ 'selected' if sort_by == 'date' }}>Date Posted</option>
+            <option value="salary_desc" {{ 'selected' if sort_by == 'salary_desc' }}>Salary (High to Low)</option>
+        </select>
+    </div>
+</div>
+
+<!-- Client-side keyword filter -->
+<div class="mb-3">
+    <input type="text" class="form-control" id="filterInput"
+           placeholder="Filter results by keyword...">
+</div>
 {% endif %}
 {% endblock %}
