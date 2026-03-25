@@ -166,3 +166,53 @@ Repeat the following steps on **both** web servers:
    ```bash
    curl http://localhost
    ```
+
+### Configuring HAProxy on Lb-01
+
+1. **SSH into the load balancer:**
+   ```bash
+   ssh ubuntu@44.202.34.36
+   ```
+
+2. **Install HAProxy:**
+   ```bash
+   sudo apt update
+   sudo apt install -y haproxy
+   ```
+
+3. **Configure HAProxy:**
+   ```bash
+   sudo nano /etc/haproxy/haproxy.cfg
+   ```
+   Add the following at the end of the file:
+   ```
+   frontend http_front
+       bind *:80
+       default_backend web_servers
+
+   backend web_servers
+       balance roundrobin
+       server web-01 34.201.51.178:80 check
+       server web-02 54.158.123.226:80 check
+   ```
+
+4. **Enable and restart HAProxy:**
+   ```bash
+   sudo systemctl enable haproxy
+   sudo systemctl restart haproxy
+   ```
+
+5. **Test the load balancer** by visiting http://44.202.34.36 in your browser.
+
+### Verifying Load Balancing
+
+To confirm traffic is distributed between both servers, you can check Nginx access logs on each web server:
+```bash
+# On Web-01
+sudo tail -f /var/log/nginx/access.log
+
+# On Web-02
+sudo tail -f /var/log/nginx/access.log
+```
+
+Refresh the load balancer URL multiple times and observe requests appearing on both servers.
