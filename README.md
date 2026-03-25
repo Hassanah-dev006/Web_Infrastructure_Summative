@@ -216,3 +216,18 @@ sudo tail -f /var/log/nginx/access.log
 ```
 
 Refresh the load balancer URL multiple times and observe requests appearing on both servers.
+
+## Challenges and Solutions
+
+1. **API Rate Limits**: The JSearch API free tier has limited requests. Implemented a 5-minute in-memory cache to avoid redundant API calls for the same queries.
+
+2. **Data Consistency**: Job listings from different sources have varying data formats. Handled missing fields gracefully with fallback values and conditional rendering in templates.
+
+3. **Secure API Key Management**: Used environment variables via python-dotenv to keep API keys out of source code. The `.gitignore` file excludes `.env` from version control.
+
+## Technologies
+
+- **Backend**: Python 3, Flask, Requests
+- **Frontend**: HTML5, CSS3, JavaScript (ES6), Bootstrap 5
+- **Deployment**: Gunicorn, Nginx, HAProxy
+- **API**: JSearch via RapidAPI
